@@ -12,7 +12,7 @@ import allure
 @pytest.fixture
 def driver():
     with allure.step("Инициализация драйвера браузера"):
-        options_chrome  = webdriver.ChromeOptions()
+        options_chrome = webdriver.ChromeOptions()
         # Указываем путь к профилю пользователя
         options_chrome.add_argument('user-data-dir=C:\\Users\\ArrA\\AppData\\Local\\Google\\Chrome\\User Data')
         # Инициализируем драйвер с указанными опциями
@@ -25,6 +25,21 @@ def driver():
 @allure.story('MetaMask Wallet Connection')
 # @pytest.mark.skip(reason="Тест временно отключен")
 def test_click_login(driver):
+    with allure.step("Открытие страницы и клик на Connect Wallet"):
+        connect_wallet_button = WebDriverWait(driver, 10).until(
+            ec.element_to_be_clickable((By.CLASS_NAME, "connect-wallet__open"))
+        )
+        connect_wallet_button.click()
+
+    with allure.step("Выбор MetaMask для подключения"):
+        button_connect = WebDriverWait(driver, 10).until(
+            ec.presence_of_all_elements_located((By.CLASS_NAME, "connectors__connect"))
+        )
+
+        if button_connect:
+            button_connect[2].click()
+
+    time.sleep(10)  # Даем время на открытие окна
 
     with allure.step("Ввод пароля и авторизация"):
         password_input = WebDriverWait(driver, 10).until(
