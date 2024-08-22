@@ -6,7 +6,7 @@ import pytest
 import time
 import allure
 
-
+PASSWORD = "Arm121309!" # Пароль от AIO
 @pytest.fixture
 def driver():
     with allure.step("Инициализация драйвера браузера"):
@@ -40,7 +40,7 @@ def test_open_page(driver):
         password_input = WebDriverWait(driver, 10).until(
             ec.presence_of_element_located((By.CLASS_NAME, "field__input"))
         )
-        password_input.send_keys("Arm121309!")
+        password_input.send_keys(PASSWORD) # Пароль от AIO
 
         button_login = WebDriverWait(driver, 10).until(
             ec.element_to_be_clickable((By.CLASS_NAME, "actions__submit"))
